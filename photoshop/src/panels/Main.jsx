@@ -1,11 +1,14 @@
 import React from "react";
 import ComfyConnection from "../system/ComfyConnection";
-import { storage } from "uxp";
+import { storage, userInfo } from "uxp";
+
+import './Main.css'
 
 export default class Main extends React.Component {
     state = {
         comfyURL: '', 
-        isConnected: false 
+        isConnected: false,
+        userId: userInfo.userId()
     }
 
     componentDidMount() {
@@ -44,7 +47,6 @@ export default class Main extends React.Component {
     render() {
         return (
             <> 
-
                 <sp-textfield 
                     id="url-bar" 
                     label="ComfyURL" 
@@ -52,19 +54,23 @@ export default class Main extends React.Component {
                     value={this.state.comfyURL} 
                     placeholder="http://127.0.0.1:8188"
                 ></sp-textfield>
-                <sp-textfield 
-                    id="user-id-bar" 
-                    label="USER ID" 
-                    onInput={(ev) => { 
-                        this.state.userId = ev.currentTarget.value;
-                        if (!this.state.userId) 
-                            storage.secureStorage.removeItem('userId');
-                        else
-                            storage.secureStorage.setItem('userId', this.state.userId);
-                    }} 
-                    value={this.state.userId} 
-                    placeholder="User Name: Change if sharing remote server"
-                ></sp-textfield>
+                <sp-divider />
+                <div class="input-row">
+                    <sp-label>user-id:</sp-label>
+                    <sp-textfield 
+                        id="user-id-bar" 
+                        label="USER ID" 
+                        onInput={(ev) => { 
+                            this.state.userId = ev.currentTarget.value;
+                            if (!this.state.userId) 
+                                storage.secureStorage.removeItem('userId');
+                            else
+                                storage.secureStorage.setItem('userId', this.state.userId);
+                        }} 
+                        value={this.state.userId} 
+                        placeholder="User Name: Change if sharing remote server"
+                    ></sp-textfield>
+                </div>
                 <div className="button-box">
                     <sp-button 
                         id="connect-btn"
